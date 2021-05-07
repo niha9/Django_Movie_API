@@ -3,11 +3,11 @@ from django.urls import reverse
 from user.models import User
 import json
 from rest_framework import status
+
 class TestViews(TestCase):
-    
+    #initial configuration   
     def setUp(self):
         self.client = Client()
-
 
     def test_user_registration_GET(self):
         client = self.client
@@ -24,6 +24,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(User.objects.first().username, "testuser")
 
+    #register using same username
     def test_user_repeation(self):
         client = self.client
         response = client.post(reverse("user_register"),{
@@ -42,14 +43,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-    """def test_user_registration_small_uname_POST(self):
-        client = self.client
-        response = client.post(reverse("user_register"),{
-            "username":"te",
-            "password": "fooboo12"
-        })
-        self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)"""
-
+   #register using small password
     def test_user_registration_small_password_POST(self):
         client = self.client
         response = client.post(reverse("user_register"),{
@@ -58,8 +52,8 @@ class TestViews(TestCase):
         })
         self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-
-    def test_user_registration_small_password_POST(self):
+    #register using empty username
+    def test_user_registration_empty_username_POST(self):
         client = self.client
         response = client.post(reverse("user_register"),{
             "username":"",

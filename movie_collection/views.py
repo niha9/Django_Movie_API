@@ -14,7 +14,7 @@ service = MovieService()
 class ThirdPartyAPiMovieList(APIView):
     permission_classes = (IsAuthenticated,)
     authentication_class = JSONWebTokenAuthentication
-
+    #get
     def get(self, request):
         #gives movie data from third party API 
         page_no = request.query_params.get('page')
@@ -36,7 +36,7 @@ class MovieCollectionListCreateView(APIView):
         return service.Fetchlist(request=request)
 
 
-class MovieCollectionRetrieveUpdateDeleteView(generics.ListCreateAPIView):
+class MovieCollectionOperationsView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, IsOwnerOrAdmin)
     authentication_class = JSONWebTokenAuthentication
 

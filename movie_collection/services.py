@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from django.db.models import Count
-
+from rest_framework import status
 from movie_collection.models import MovieCollection, CollectionMovieMapping
 from movie_collection.serializers import MovieCollectionSerializer
 from movie_collection.utils import fetch_movie_list
@@ -31,9 +31,10 @@ class MovieService:
         # fetching movie collection list for the user
         queryset = MovieCollection.objects.prefetch_related('collection_movies').filter(user=request.user)
         serializer = MovieCollectionSerializer(queryset, many=True)
+        #counts the genres and orders it in descending order
         genres = CollectionMovieMapping.objects.values('genres').annotate(c=Count('genres')).order_by('-c')
         genres = genres[:3]
-        print(genres)
+
         for value in genres:
             print(value.pop('c'))
         return Response({
