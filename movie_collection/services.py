@@ -32,11 +32,12 @@ class MovieService:
         queryset = MovieCollection.objects.prefetch_related('collection_movies').filter(user=request.user)
         serializer = MovieCollectionSerializer(queryset, many=True)
         #counts the genres and orders it in descending order
+
         genres = CollectionMovieMapping.objects.values('genres').annotate(c=Count('genres')).order_by('-c')
         genres = genres[:3]
 
         for value in genres:
-            print(value.pop('c'))
+            value.pop('c')
         return Response({
             'is_success': True,
             'favourite_genres': genres,

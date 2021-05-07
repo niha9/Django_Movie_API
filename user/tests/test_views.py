@@ -43,12 +43,12 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-   #register using small password
-    def test_user_registration_small_password_POST(self):
+   #register using empty password
+    def test_user_registration_empty_password_POST(self):
         client = self.client
         response = client.post(reverse("user_register"),{
             "username":"testuser123",
-            "password": "foo"
+            "password": ""
         })
         self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)
 
